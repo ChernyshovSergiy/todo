@@ -5,7 +5,7 @@
     <div class="card-body table-responsive">
         <table class="table table-hover">
             <thead class="text-warning">
-            <th>ID</th>
+            <th>#</th>
             <th>Name</th>
             <th>Categories</th>
             <th>Priority</th>
@@ -13,18 +13,31 @@
             <th>Date</th>
             </thead>
             <tbody>
-            <tr *ngFor="let task of tasks">
-                <td>{{ task.id }}</td>
+            <tr *ngFor="let task of tasks; let i = index" [class.completed]="task.completed">
+                <td>{{ i + 1 }}</td>
                 <td>{{ task.title }}</td>
-                <td></td>
-                <td></td>
-                <td *ngIf="task.completed">
-                    <i class="material-icons">
-                        check_circle_outline
-                    </i>
-                </td>
-                <td *ngIf="!task.completed">
-                    <i class="material-icons"></i>
+                <td>{{ task.category ? task.category.title : '' }}</td>
+                <td>{{ task.priority ? task.priority.title : '' }}</td>
+<!--                <td *ngIf="task.completed">-->
+<!--                    <i class="material-icons text-success">-->
+<!--                        check_circle_outline-->
+<!--                    </i>-->
+<!--                </td>-->
+<!--                <td *ngIf="!task.completed">-->
+<!--                    <i class="material-icons"></i>-->
+<!--                </td>-->
+                <td>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input (click)="toggleTaskCompleted(task)" [checked]="task.completed"
+                                   class="form-check-input" type="checkbox"
+                                   value=""
+                            >
+                            <span class="form-check-sign">
+                                    <span class="check"></span>
+                                  </span>
+                        </label>
+                    </div>
                 </td>
                 <td>{{ task.date | date }}</td>
             </tr>

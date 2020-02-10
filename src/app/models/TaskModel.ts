@@ -5,7 +5,7 @@ export class TaskModel {
 
     id: number;
     title: string;
-    completed?: boolean;
+    completed: boolean;
     priority?: PriorityModel;
     category?: CategoryModel;
     date?: Date;

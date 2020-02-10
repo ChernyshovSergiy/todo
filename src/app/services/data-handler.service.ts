@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {CategoryModel} from '../models/CategoryModel';
 import {TestData} from '../data/TestData';
 import {TaskModel} from '../models/TaskModel';
-import {Subject} from 'rxjs';
+import {Subject, AsyncSubject, ReplaySubject, BehaviorSubject} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DataHandlerService {
 
-    tasksSubject = new Subject<TaskModel[]>();
+    tasksSubject = new BehaviorSubject<TaskModel[]>(TestData.tasks);
 
     constructor() {
     }
@@ -18,9 +18,9 @@ export class DataHandlerService {
         return TestData.categories;
     }
 
-    fillTasks() {
-        this.tasksSubject.next(TestData.tasks);
-    }
+    // fillTasks() {
+    //     this.tasksSubject.next(TestData.tasks);
+    // }
 
     fillTasksByCategory(category) {
         const tasks = TestData.tasks.filter(task => task.category === category);

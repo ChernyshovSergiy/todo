@@ -9,6 +9,8 @@ import {CategoryModel} from '../../models/CategoryModel';
 })
 export class CategoriesComponent implements OnInit {
 
+    selectCategory: CategoryModel;
+
     categories: CategoryModel[];
 
     constructor(private dataHandler: DataHandlerService) {
@@ -16,10 +18,10 @@ export class CategoriesComponent implements OnInit {
 
     ngOnInit() {
         this.categories = this.dataHandler.fillCategories();
-        console.log(this.categories);
     }
 
     getTaskByCategory(category: CategoryModel) {
+        this.selectCategory = category;
         this.dataHandler.fillTasksByCategory(category);
     }
 }
