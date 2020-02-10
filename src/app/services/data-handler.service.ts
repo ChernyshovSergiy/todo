@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import {CategoryModel} from '../models/CategoryModel';
+import {TestData} from '../data/TestData';
 
 @Injectable({
   providedIn: 'root'
@@ -6,4 +8,8 @@ import { Injectable } from '@angular/core';
 export class DataHandlerService {
 
   constructor() { }
+
+  fillCategories(): CategoryModel[] {
+      return TestData.categories;
+  }
 }
