@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {TaskModel} from '../../models/TaskModel';
+import {MatTableDataSource} from '@angular/material';
 
 @Component({
     selector: 'app-tasks',
@@ -9,6 +10,10 @@ import {TaskModel} from '../../models/TaskModel';
 })
 export class TasksComponent implements OnInit {
 
+    // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
+    private displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
+    private dataSource: MatTableDataSource<TaskModel>; // контейнер - источник данных для таблицы
+
     tasks: TaskModel[];
 
     constructor(private dataHandler: DataHandlerService) {
@@ -16,9 +21,33 @@ export class TasksComponent implements OnInit {
 
     ngOnInit() {
         this.dataHandler.tasksSubject.subscribe(tasks => this.tasks = tasks);
+
+        // датасорс обязательно нужно создавать для таблицы, в него присваивается любой источник (БД, массивы, JSON и пр.)
+        this.dataSource = new MatTableDataSource();
+
+        this.refreshTable();
     }
 
     toggleTaskCompleted(task: TaskModel) {
         task.completed = !task.completed;
+    }
+
+    // в зависимости от статуса задачи - вернуть цвет названия
+    private getPriorityColor(task: TaskModel) {
+
+        if (!task.completed && task.priority && task.priority.color) {
+            return task.priority.color;
+        }
+
+        return '#fff';
+
+    }
+
+    // показывает задачи с применением всех текущий условий (категория, поиск, фильтры и пр.)
+    private refreshTable() {
+
+        this.dataSource.data = this.tasks; // обновить источник данных (т.к. данные массива tasks обновились)
+
+
     }
 }

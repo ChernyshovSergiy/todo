@@ -5,6 +5,7 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { CategoriesComponent } from './views/categories/categories.component';
 import { TasksComponent } from './views/tasks/tasks.component';
+import {MatPaginatorModule, MatSortModule, MatTableModule} from '@angular/material';
 
 @NgModule({
     declarations: [
@@ -14,6 +15,9 @@ import { TasksComponent } from './views/tasks/tasks.component';
     ],
     imports: [
         BrowserModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
         BrowserAnimationsModule
     ],
     providers: [],
