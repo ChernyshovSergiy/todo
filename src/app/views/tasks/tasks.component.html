@@ -4,7 +4,7 @@
     </div>
     <div class="card-body table-responsive">
 
-        <table [dataSource]="dataSource" mat-table>
+        <table [dataSource]="dataSource" mat-table matSort>
 
             <!--  цвет приоритета  -->
             <ng-container matColumnDef="color">
@@ -29,7 +29,7 @@
 
             <!-- название задачи-->
             <ng-container matColumnDef="title">
-                <th *matHeaderCellDef mat-header-cell> Name</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header> Name</th>
                 <td *matCellDef="let task" [class.completed]="task.completed" class="col-title" mat-cell>
 
                     {{task.title}}
@@ -39,7 +39,7 @@
 
             <!--дата выполнения-->
             <ng-container matColumnDef="date">
-                <th *matHeaderCellDef mat-header-cell> Data</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header> Data</th>
                 <td *matCellDef="let task" [ngClass]="{'completed': task.completed, 'nodate': task.date == null}"
                     class="col-date" mat-cell>
 
@@ -51,7 +51,7 @@
 
             <!--приоритет-->
             <ng-container matColumnDef="priority">
-                <th *matHeaderCellDef mat-header-cell> Priority</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header> Priority</th>
                 <td *matCellDef="let task"
                     [ngClass]="{'completed': task.completed, 'nopriority': task.priority == null}"
                     class="col-priority" mat-cell
@@ -65,7 +65,7 @@
 
             <!--категория-->
             <ng-container matColumnDef="category">
-                <th *matHeaderCellDef mat-header-cell> Categories</th>
+                <th *matHeaderCellDef mat-header-cell mat-sort-header> Categories</th>
                 <td *matCellDef="let task"
                     [ngClass]="{'completed': task.completed, 'nocategory': task.category == null, 'link': !task.completed && task.category}"
                     class="col-category" mat-cell
@@ -85,6 +85,7 @@
 
         </table>
 
+        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
 
     </div>
 </div>
