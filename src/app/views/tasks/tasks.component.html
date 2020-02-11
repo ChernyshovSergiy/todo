@@ -2,7 +2,7 @@
     <div class="card-header card-header-warning">
         <h4 class="card-title">List of Tasks</h4>
     </div>
-    <div class="card-body table-responsive">
+    <div class="card-body table-responsive"  *ngIf="tasks.length > 0">
 
         <table [dataSource]="dataSource" mat-table matSort>
 
@@ -88,6 +88,7 @@
         <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
 
     </div>
+    <div *ngIf="tasks.length == 0"><p class="not-found">Don't have any one task</p></div>
 </div>
 
 
