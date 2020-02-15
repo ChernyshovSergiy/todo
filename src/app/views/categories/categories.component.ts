@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {CategoryModel} from '../../models/CategoryModel';
-import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-categories',
@@ -10,11 +9,14 @@ import {Subscription} from 'rxjs';
 })
 export class CategoriesComponent implements OnInit {
 
-    // @Input()
-    selectCategory: CategoryModel;
-
     @Input()
     categories: CategoryModel[];
+
+    // выбрали категорию из списка
+    @Output()
+    selectCategory = new EventEmitter<CategoryModel>();
+
+    selectedCategory: CategoryModel;
 
     constructor(private dataHandler: DataHandlerService) {
     }
@@ -23,8 +25,16 @@ export class CategoriesComponent implements OnInit {
         // this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
     }
 
-    getTaskByCategory(category: CategoryModel) {
-        this.selectCategory = category;
-        this.dataHandler.fillTasksByCategory(category);
+    showTasksByCategory(category: CategoryModel) {
+
+        // если не изменилось значение, ничего не делать (чтобы лишний раз не делать запрос данных)
+        if (this.selectedCategory === category) {
+            return;
+        }
+
+        this.selectedCategory = category; // сохраняем выбранную категорию
+
+        // вызываем внешний обработчик и передаем туда выбранную категорию
+        this.selectCategory.emit(this.selectedCategory);
     }
 }

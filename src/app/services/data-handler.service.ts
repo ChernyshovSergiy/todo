@@ -5,37 +5,37 @@ import {TaskModel} from '../models/TaskModel';
 import {Subject, AsyncSubject, ReplaySubject, BehaviorSubject, Observable} from 'rxjs';
 import {TaskDAOArray} from '../data/dao/implementation/TaskDAOArray';
 import {CategoryDAOArray} from '../data/dao/implementation/CategoryDAOArray';
+import {PriorityModel} from '../models/PriorityModel';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DataHandlerService {
 
-    tasksSubject = new BehaviorSubject<TaskModel[]>(TestData.tasks);
+    // релизации работы с данными с помощью массива
+    // (можно подставлять любые релизации, в том числе с БД. Главное - соблюдать интерфейсы)
     private tasksDaoArray = new TaskDAOArray();
     private categoryDaoArray = new CategoryDAOArray();
 
     constructor() {
     }
 
-    getAllTasks(): Observable<TaskModel[]> {
-        return this.tasksDaoArray.getAll();
-    }
+    // getAllTasks(): Observable<TaskModel[]> {
+    //     return this.tasksDaoArray.getAll();
+    // }
 
     getAllCategories(): Observable<CategoryModel[]> {
         return this.categoryDaoArray.getAll();
     }
 
-    // fillCategories(): CategoryModel[] {
-    //     return TestData.categories;
-    // }
-
-    fillTasks() {
-        this.tasksSubject.next(TestData.tasks);
+    // поиск задач по параметрам
+    searchTasks(
+        category: CategoryModel,
+        searchText: string,
+        status: boolean,
+        priority: PriorityModel
+    ): Observable<TaskModel[]> {
+        return this.tasksDaoArray.search(category, searchText, status, priority);
     }
 
-    fillTasksByCategory(category) {
-        const tasks = TestData.tasks.filter(task => task.category === category);
-        this.tasksSubject.next(tasks);
-    }
 }

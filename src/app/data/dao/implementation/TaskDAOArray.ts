@@ -40,8 +40,36 @@ export class TaskDAOArray implements TaskDAO {
         return undefined;
     }
 
-    search(category: CategoryModel, searchText: string, status: boolean, priority: PriorityModel): Observable<TaskModel[]> {
-        return undefined;
+
+    // поиск задач по параметрам
+    // если значение null - параметр не нужно учитывать при поиске
+    search(
+        category: CategoryModel,
+        searchText: string,
+        status: boolean,
+        priority: PriorityModel
+    ): Observable<TaskModel[]> {
+
+        return of(this.searchTodo(category, searchText, status, priority));
+
+    }
+
+    private searchTodo(
+        category: CategoryModel,
+        searchText: string,
+        status: boolean,
+        priority: PriorityModel
+    ): TaskModel[] {
+
+        let allTasks = TestData.tasks;
+
+
+        if (category != null) {
+            allTasks = allTasks.filter(todo => todo.category === category);
+        }
+
+
+        return allTasks; // отфильтрованный массив
     }
 
     update(T): Observable<TaskModel> {

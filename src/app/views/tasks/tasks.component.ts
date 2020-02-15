@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter, ViewChild} from '@angular/core';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {TaskModel} from '../../models/TaskModel';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
@@ -18,29 +18,27 @@ export class TasksComponent implements OnInit {
     @ViewChild(MatPaginator, {static: false}) private paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) private sort: MatSort;
 
-    // текущие задачи для отображения на странице
-    @Input()
     private tasks: TaskModel[]; // напрямую не присваиваем значения в переменную, только через @Input
+
+    @Output()
+    updateTask = new EventEmitter<TaskModel>();
+
+    // текущие задачи для отображения на странице
+    @Input('tasks')
+    private set setTasks(tasks: TaskModel[]) { // напрямую не присваиваем значения в переменную, только через @Input
+        this.tasks = tasks;
+        this.fillTable();
+    }
 
     // constructor(private dataHandler: DataHandlerService) {
     // }
 
     ngOnInit() {
-        // this.dataHandler.getAllTasks().subscribe(tasks => this.tasks = tasks);
-
         // датасорс обязательно нужно создавать для таблицы, в него присваивается любой источник (БД, массивы, JSON и пр.)
         this.dataSource = new MatTableDataSource();
 
-        this.fillTable();
+        this.fillTable();  // заполняем таблицы данными (задачи) и всеми метаданными
     }
-
-    // в этом методе уже все проинциализировано, поэтому можно присваивать объекты (иначе может быть ошибка undefined)
-    // ngAfterViewInit(): void {
-    //
-    //     this.addTableObjects();
-    //
-    // }
-
 
     toggleTaskCompleted(task: TaskModel) {
         task.completed = !task.completed;
@@ -64,6 +62,10 @@ export class TasksComponent implements OnInit {
 
     // показывает задачи с применением всех текущий условий (категория, поиск, фильтры и пр.)
     private fillTable() {
+
+        if (!this.dataSource) {
+            return;
+        }
 
         this.dataSource.data = this.tasks; // обновить источник данных (т.к. данные массива tasks обновились)
 
@@ -100,4 +102,7 @@ export class TasksComponent implements OnInit {
         this.dataSource.paginator = this.paginator; // обновить компонент постраничности (кол-во записей, страниц)
     }
 
+    onClickTask(task: TaskModel) {
+        this.updateTask.emit(task);
+    }
 }
