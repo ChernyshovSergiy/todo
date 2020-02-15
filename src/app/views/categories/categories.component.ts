@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {CategoryModel} from '../../models/CategoryModel';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-categories',
@@ -9,15 +10,17 @@ import {CategoryModel} from '../../models/CategoryModel';
 })
 export class CategoriesComponent implements OnInit {
 
+    // @Input()
     selectCategory: CategoryModel;
 
+    @Input()
     categories: CategoryModel[];
 
     constructor(private dataHandler: DataHandlerService) {
     }
 
     ngOnInit() {
-        this.categories = this.dataHandler.fillCategories();
+        // this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
     }
 
     getTaskByCategory(category: CategoryModel) {

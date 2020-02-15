@@ -1,6 +1,7 @@
 // стандартные методы CRUD (create, read, update, delete)
 
 import {Observable} from 'rxjs';
+import {TaskModel} from '../../../models/TaskModel';
 
 // все методы возвращают Observable - для асинхронности и работы в реактивном стиле
 export interface CommonDAO<T> {

@@ -1,6 +1,7 @@
 import {PriorityDAO} from '../interface/PriorityDAO';
 import {PriorityModel} from 'src/app/models/PriorityModel';
 import {Observable} from 'rxjs';
+import {TaskModel} from '../../../models/TaskModel';
 
 export class PriorityDAOArray implements PriorityDAO {
 
