@@ -1,7 +1,8 @@
 import {Component, Input, OnInit, Output, EventEmitter, ViewChild} from '@angular/core';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {TaskModel} from '../../models/TaskModel';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-dialog.component';
 
 @Component({
     selector: 'app-tasks',
@@ -30,8 +31,11 @@ export class TasksComponent implements OnInit {
         this.fillTable();
     }
 
-    // constructor(private dataHandler: DataHandlerService) {
-    // }
+    constructor(
+        private dataHandler: DataHandlerService,
+        private dialog: MatDialog  // работа с диалоговым окном
+    ) {
+    }
 
     ngOnInit() {
         // датасорс обязательно нужно создавать для таблицы, в него присваивается любой источник (БД, массивы, JSON и пр.)
@@ -45,7 +49,7 @@ export class TasksComponent implements OnInit {
     }
 
     // в зависимости от статуса задачи - вернуть цвет названия
-    private getPriorityColor(task: TaskModel) {
+    private getPriorityColor(task: TaskModel): string {
 
         // цвет завершенной задачи
         if (task.completed) {
@@ -61,7 +65,7 @@ export class TasksComponent implements OnInit {
     }
 
     // показывает задачи с применением всех текущий условий (категория, поиск, фильтры и пр.)
-    private fillTable() {
+    private fillTable(): void {
 
         if (!this.dataSource) {
             return;
@@ -97,12 +101,19 @@ export class TasksComponent implements OnInit {
         };
     }
 
-    private addTableObjects() {
+    private addTableObjects(): void {
         this.dataSource.sort = this.sort; // компонент для сортировки данных (если необходимо)
         this.dataSource.paginator = this.paginator; // обновить компонент постраничности (кол-во записей, страниц)
     }
-
-    onClickTask(task: TaskModel) {
-        this.updateTask.emit(task);
+    // диологовое окно для редактирования задачи
+    openEditTask(task: any): void {
+        // открытие диологового окна
+        const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+            data: [task, 'Edit Task'],
+            autoFocus: false
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            // обработка результатов
+        });
     }
 }
