@@ -22,6 +22,9 @@ export class TasksComponent implements OnInit {
     private tasks: TaskModel[]; // напрямую не присваиваем значения в переменную, только через @Input
 
     @Output()
+    deleteTask = new EventEmitter<TaskModel>();
+
+    @Output()
     updateTask = new EventEmitter<TaskModel>();
 
     // текущие задачи для отображения на странице
@@ -117,6 +120,11 @@ export class TasksComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             // обработка результатов
+
+            if (result === 'delete') {
+                this.deleteTask.emit(task);
+                return;
+            }
 
             if (result as TaskModel) { // если нажали ОК и есть результат
                 this.updateTask.emit(task);

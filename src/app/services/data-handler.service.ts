@@ -47,4 +47,7 @@ export class DataHandlerService {
         return this.tasksDaoArray.search(category, searchText, status, priority);
     }
 
+    deleteTask(id: number): Observable<TaskModel> {
+        return this.tasksDaoArray.delete(id);
+    }
 }
