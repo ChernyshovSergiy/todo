@@ -6,11 +6,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CategoriesComponent} from './views/categories/categories.component';
 import {TasksComponent} from './views/tasks/tasks.component';
 import {
-    MatButtonModule,
+    MatButtonModule, MatDatepickerModule,
     MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule, MatOptionModule,
+    MatInputModule, MatNativeDateModule, MatOptionModule,
     MatPaginatorModule, MatSelectModule,
     MatSortModule,
     MatTableModule
@@ -40,7 +40,9 @@ import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.c
         MatButtonModule,
         MatIconModule,
         MatOptionModule,
-        MatSelectModule
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     providers: [],
     entryComponents: [

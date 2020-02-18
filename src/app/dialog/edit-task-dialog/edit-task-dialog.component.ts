@@ -28,6 +28,8 @@ export class EditTaskDialogComponent implements OnInit {
 
     private status: boolean;
 
+    private tmpDate: Date;
+
     // сохраняем все значения в отдельные переменные
 
     constructor(
@@ -48,6 +50,7 @@ export class EditTaskDialogComponent implements OnInit {
         this.tmpCategory = this.task.category;
         this.tmpPriority = this.task.priority;
         this.status = this.task.completed;
+        this.tmpDate = this.task.date;
 
         this.dataHandler.getAllCategories().subscribe(items => this.categories = items);
         this.dataHandler.getAllPriorities().subscribe(items => this.priorities = items);
@@ -61,6 +64,7 @@ export class EditTaskDialogComponent implements OnInit {
         this.task.title = this.tmpTitle;
         this.task.category = this.tmpCategory;
         this.task.priority = this.tmpPriority;
+        this.task.date = this.tmpDate;
 
 
         // передаем добавленную/измененную задачу в обработчик

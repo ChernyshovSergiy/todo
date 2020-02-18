@@ -54,6 +54,33 @@
     </mat-form-field>
 
 
+    <!--    календарь - срок выполнения -->
+    <mat-form-field>
+        <input
+            matInput placeholder="Add deadline!" #inputData
+            readonly="true"
+            [matDatepicker]="picker"
+            [(ngModel)]="tmpDate"
+            (click)="picker.open()"
+        >
+        <!-- иконка календаря - для открытия календаря -->
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+
+        <!-- компонент календаря - открываеться по нажатию -->
+        <mat-datepicker #picker></mat-datepicker>
+
+        <!-- кнопка очистки даты -->
+        <button
+            *ngIf="inputData.value.trim().length > 0"
+            mat-button matSuffix mat-icon-button aria-label="clear"
+            (click)="tmpDate = null" class="size25">
+
+            <mat-icon>clear</mat-icon>
+
+        </button>
+    </mat-form-field>
+
+
 </mat-dialog-content>
 
 
@@ -74,27 +101,12 @@
 
     </div>
     <div class="col-md-7 col-12 text-right">
-        <!--        <button-->
-        <!--            *ngIf="status"-->
-        <!--            (click)="complete()"-->
-        <!--            mat-button-->
-        <!--            >-->
-        <!--            Activate task-->
-        <!--        </button>-->
-
-        <!--        <button-->
-        <!--            *ngIf="!status"-->
-        <!--            (click)="activate()"-->
-        <!--            mat-button-->
-        <!--            >-->
-        <!--            Deactivate task-->
-        <!--        </button>-->
 
         <button
             (click)="!status ? activate() : complete()"
             mat-button
-            >
-            {{!status ? 'Complete task': 'Activate task'}}
+        >
+            {{!status ? 'Complete task' : 'Activate task'}}
         </button>
 
 
