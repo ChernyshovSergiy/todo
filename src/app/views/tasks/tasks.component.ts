@@ -105,15 +105,24 @@ export class TasksComponent implements OnInit {
         this.dataSource.sort = this.sort; // компонент для сортировки данных (если необходимо)
         this.dataSource.paginator = this.paginator; // обновить компонент постраничности (кол-во записей, страниц)
     }
-    // диологовое окно для редактирования задачи
-    openEditTask(task: any): void {
-        // открытие диологового окна
+
+    // диалоговое редактирования для добавления задачи
+    private openEditTaskDialog(task: TaskModel): void {
+
+        // открытие диалогового окна
         const dialogRef = this.dialog.open(EditTaskDialogComponent, {
             data: [task, 'Edit Task'],
             autoFocus: false
         });
+
         dialogRef.afterClosed().subscribe(result => {
             // обработка результатов
+
+            if (result as TaskModel) { // если нажали ОК и есть результат
+                this.updateTask.emit(task);
+                return;
+            }
+
         });
     }
 }

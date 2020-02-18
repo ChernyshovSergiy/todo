@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CategoryModel} from '../models/CategoryModel';
-import {TestData} from '../data/TestData';
 import {TaskModel} from '../models/TaskModel';
-import {Subject, AsyncSubject, ReplaySubject, BehaviorSubject, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {TaskDAOArray} from '../data/dao/implementation/TaskDAOArray';
 import {CategoryDAOArray} from '../data/dao/implementation/CategoryDAOArray';
 import {PriorityModel} from '../models/PriorityModel';
@@ -26,6 +25,10 @@ export class DataHandlerService {
 
     getAllCategories(): Observable<CategoryModel[]> {
         return this.categoryDaoArray.getAll();
+    }
+
+    updateTask(task: TaskModel): Observable<TaskModel> {
+        return this.tasksDaoArray.update(task);
     }
 
     // поиск задач по параметрам
