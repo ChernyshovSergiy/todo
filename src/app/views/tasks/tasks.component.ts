@@ -27,6 +27,9 @@ export class TasksComponent implements OnInit {
     @Output()
     updateTask = new EventEmitter<TaskModel>();
 
+    @Output()
+    changeStatus = new EventEmitter<TaskModel>();
+
     // текущие задачи для отображения на странице
     @Input('tasks')
     private set setTasks(tasks: TaskModel[]) { // напрямую не присваиваем значения в переменную, только через @Input
@@ -120,6 +123,18 @@ export class TasksComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             // обработка результатов
+
+            if (result === 'activate') {
+                task.completed = true;
+                this.updateTask.emit(task);
+                return;
+            }
+
+            if (result === 'complete') {
+                task.completed = false;
+                this.updateTask.emit(task);
+                return;
+            }
 
             if (result === 'delete') {
                 this.deleteTask.emit(task);

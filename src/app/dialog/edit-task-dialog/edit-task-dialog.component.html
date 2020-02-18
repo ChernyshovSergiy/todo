@@ -60,26 +60,54 @@
 <!--  кнопки возможных действий-->
 <mat-dialog-actions>
 
-    <button
-        (click)="onConfirm()" [disabled]="inputTitle.value.trim().length==0"
-        color="primary"
-        mat-raised-button>  <!-- если пустой текст - кнопка "Сохранить" будет недоступна -->
-        Save
-    </button>
+    <div class="col-md-5 col-12">
+
+        <button
+            (click)="onConfirm()" [disabled]="inputTitle.value.trim().length==0"
+            color="primary"
+            mat-raised-button>  <!-- если пустой текст - кнопка "Сохранить" будет недоступна -->
+            Save
+        </button>
 
 
-    <button (click)="onCancel()" mat-raised-button>Cancel</button>
+        <button (click)="onCancel()" mat-raised-button>Cancel</button>
 
-    <button
-        mat-button
-        class="red"
-        (click)="delete()"
+    </div>
+    <div class="col-md-7 col-12 text-right">
+        <!--        <button-->
+        <!--            *ngIf="status"-->
+        <!--            (click)="complete()"-->
+        <!--            mat-button-->
+        <!--            >-->
+        <!--            Activate task-->
+        <!--        </button>-->
 
-    >
-        Delete task
+        <!--        <button-->
+        <!--            *ngIf="!status"-->
+        <!--            (click)="activate()"-->
+        <!--            mat-button-->
+        <!--            >-->
+        <!--            Deactivate task-->
+        <!--        </button>-->
 
-    </button>
+        <button
+            (click)="!status ? activate() : complete()"
+            mat-button
+            >
+            {{!status ? 'Complete task': 'Activate task'}}
+        </button>
 
+
+        <button
+            mat-button
+            class="red"
+            (click)="delete()"
+
+        >
+            Delete task
+        </button>
+
+    </div>
 
 </mat-dialog-actions>
 
