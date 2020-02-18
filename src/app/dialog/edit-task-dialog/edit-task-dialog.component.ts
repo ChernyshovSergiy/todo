@@ -1,6 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {TaskModel} from '../../models/TaskModel';
+import {CategoryModel} from '../../models/CategoryModel';
+import {DataHandlerService} from '../../services/data-handler.service';
+import {PriorityModel} from '../../models/PriorityModel';
 
 @Component({
     selector: 'app-edit-task-dialog',
@@ -16,11 +19,18 @@ export class EditTaskDialogComponent implements OnInit {
     // чтобы изменения не сказывались на самой задаче и можно было отменить изменения
     private tmpTitle: string;
 
+    private categories: CategoryModel[];
+    private tmpCategory: CategoryModel;
+
+    private priorities: PriorityModel[];
+    private tmpPriority: PriorityModel;
+
     // сохраняем все значения в отдельные переменные
 
     constructor(
-        private dialogRef: MatDialogRef<EditTaskDialogComponent>, // // для возможности работы с текущим диалог. окном
-        @Inject(MAT_DIALOG_DATA) private data: [TaskModel, string] // данные, которые передали в диалоговое окно
+        private dialogRef: MatDialogRef<EditTaskDialogComponent>, // для возможности работы с текущим диалог. окном
+        @Inject(MAT_DIALOG_DATA) private data: [TaskModel, string], // данные, которые передали в диалоговое окно
+        private dataHandler: DataHandlerService // ссылка на сервис для работы с данными
     ) {
     }
 
@@ -31,6 +41,11 @@ export class EditTaskDialogComponent implements OnInit {
         // инициализация начальных значений (записывам в отдельные переменные
         // чтобы можно было отменить изменения, а то будут сразу записываться в задачу)
         this.tmpTitle = this.task.title;
+        this.tmpCategory = this.task.category;
+        this.tmpPriority = this.task.priority;
+
+        this.dataHandler.getAllCategories().subscribe(items => this.categories = items);
+        this.dataHandler.getAllPriorities().subscribe(items => this.priorities = items);
 
     }
 
@@ -39,6 +54,8 @@ export class EditTaskDialogComponent implements OnInit {
 
         // считываем все значения для сохранения в поля задачи
         this.task.title = this.tmpTitle;
+        this.task.category = this.tmpCategory;
+        this.task.priority = this.tmpPriority;
 
 
         // передаем добавленную/измененную задачу в обработчик

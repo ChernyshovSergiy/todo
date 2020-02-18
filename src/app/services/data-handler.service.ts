@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {TaskDAOArray} from '../data/dao/implementation/TaskDAOArray';
 import {CategoryDAOArray} from '../data/dao/implementation/CategoryDAOArray';
 import {PriorityModel} from '../models/PriorityModel';
+import {PriorityDAOArray} from '../data/dao/implementation/PriorityDAOArray';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,7 @@ export class DataHandlerService {
     // (можно подставлять любые релизации, в том числе с БД. Главное - соблюдать интерфейсы)
     private tasksDaoArray = new TaskDAOArray();
     private categoryDaoArray = new CategoryDAOArray();
+    private priorityDaoArray = new PriorityDAOArray();
 
     constructor() {
     }
@@ -25,6 +27,10 @@ export class DataHandlerService {
 
     getAllCategories(): Observable<CategoryModel[]> {
         return this.categoryDaoArray.getAll();
+    }
+
+    getAllPriorities(): Observable<PriorityModel[]> {
+        return this.priorityDaoArray.getAll();
     }
 
     updateTask(task: TaskModel): Observable<TaskModel> {
