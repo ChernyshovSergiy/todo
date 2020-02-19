@@ -116,6 +116,7 @@
                 >
 
                     <mat-checkbox
+                        color="primary"
                         (click)="$event.stopPropagation()"
                         (change)="$event ? toggleTaskCompleted(task) : null"
                         [checked]="task.completed"
