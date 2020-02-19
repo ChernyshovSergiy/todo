@@ -68,11 +68,11 @@
             <ng-container matColumnDef="category">
                 <th *matHeaderCellDef mat-header-cell mat-sort-header> Categories</th>
                 <td *matCellDef="let task"
-                    [ngClass]="{'completed': task.completed, 'nocategory': task.category == null, 'link': !task.completed && task.category}"
+                    [ngClass]="{'completed': task.completed, 'nocategory': task.category == null, 'reference': !task.completed && task.category}"
                     class="col-category" mat-cell
+                    (click)="!task.completed && task.category && onSelectCategory(task.category)"
                 >
-
-                    {{task.category ? task.category.title : "Без категории"}}
+                       {{task.category ? task.category.title : "Без категории"}}
 
                 </td>
             </ng-container>

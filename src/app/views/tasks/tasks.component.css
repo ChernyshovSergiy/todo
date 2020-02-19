@@ -65,3 +65,10 @@
     color: #9c27b0 !important;
     font-weight: normal;
 }
+
+.reference {
+    cursor: pointer;
+    color: #9c27b0 !important;
+    font-weight: normal;
+    text-decoration-line: underline !important;
+}

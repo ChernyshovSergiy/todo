@@ -4,6 +4,7 @@ import {TaskModel} from '../../models/TaskModel';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-dialog.component';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
+import {CategoryModel} from '../../models/CategoryModel';
 
 @Component({
     selector: 'app-tasks',
@@ -30,6 +31,12 @@ export class TasksComponent implements OnInit {
 
     @Output()
     changeStatus = new EventEmitter<TaskModel>();
+
+    // выбрали категорию из списка
+    @Output()
+    selectCategory = new EventEmitter<CategoryModel>();
+
+    private selectedCategory: CategoryModel;
 
     // текущие задачи для отображения на странице
     @Input('tasks')
@@ -166,5 +173,11 @@ export class TasksComponent implements OnInit {
                 this.deleteTask.emit(task);
             }
         });
+    }
+
+    onSelectCategory(category: CategoryModel) {
+        // вызываем внешний обработчик и передаем туда выбранную категорию
+        this.selectCategory.emit(category);
+
     }
 }
