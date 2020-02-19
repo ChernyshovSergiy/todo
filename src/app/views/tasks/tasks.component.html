@@ -77,6 +77,57 @@
                 </td>
             </ng-container>
 
+            <!--Доступные действия над задачей-->
+            <ng-container matColumnDef="operations">
+                <th *matHeaderCellDef mat-header-cell> Actions</th>
+                <td
+                    class="col-operations"
+                    mat-cell
+                    *matCellDef="let task"
+                    [class.completed]="task.completed"
+                >
+
+                    <button
+                        mat-icon-button
+                        (click)="openDeletedDialog(task)"
+                        class="delete-icon"
+                    >
+                        <mat-icon aria-hidden="false">delete</mat-icon>
+                    </button>
+
+                    <button
+                        mat-icon-button
+                        (click)="openEditTaskDialog(task)"
+                        class="edit-icon"
+                    >
+                        <mat-icon aria-hidden="false">edit</mat-icon>
+                    </button>
+
+                </td>
+            </ng-container>
+
+            <!--Галочка для выполнения задачи-->
+            <ng-container matColumnDef="select">
+                <th *matHeaderCellDef mat-header-cell></th>
+                <td
+                    class="col-select text-right"
+                    mat-cell
+                    *matCellDef="let task"
+                >
+
+                    <mat-checkbox
+                        (click)="$event.stopPropagation()"
+                        (change)="$event ? toggleTaskCompleted(task) : null"
+                        [checked]="task.completed"
+                    >
+
+                    </mat-checkbox>
+
+                </td>
+            </ng-container>
+
+
+
 
             <!--  заголовок таблицы-->
             <tr *matHeaderRowDef="displayedColumns; " mat-header-row></tr>

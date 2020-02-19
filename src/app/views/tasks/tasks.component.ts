@@ -3,6 +3,7 @@ import {DataHandlerService} from '../../services/data-handler.service';
 import {TaskModel} from '../../models/TaskModel';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-dialog.component';
+import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'app-tasks',
@@ -12,7 +13,7 @@ import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-d
 export class TasksComponent implements OnInit {
 
     // поля для таблицы (те, что отображают данные из задачи - должны совпадать с названиями переменных класса)
-    private displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category'];
+    private displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operations', 'select'];
     private dataSource: MatTableDataSource<TaskModel>; // контейнер - источник данных для таблицы
 
     // ссылки на компоненты таблицы
@@ -52,6 +53,7 @@ export class TasksComponent implements OnInit {
 
     toggleTaskCompleted(task: TaskModel) {
         task.completed = !task.completed;
+        this.updateTask.emit(task);
     }
 
     // в зависимости от статуса задачи - вернуть цвет названия
@@ -146,6 +148,23 @@ export class TasksComponent implements OnInit {
                 return;
             }
 
+        });
+    }
+
+    openDeletedDialog(task: TaskModel): void {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            maxWidth: '500px',
+            data: {
+                dialogTitle: 'Confirm action',
+                message: `Are you sure!!! you want to delete the task: "${task.title}"?`
+            },
+            autoFocus: false
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) { // если нажали удалить
+                this.deleteTask.emit(task);
+            }
         });
     }
 }
