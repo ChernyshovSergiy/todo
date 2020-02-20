@@ -55,11 +55,11 @@ export class TaskDAOArray implements TaskDAO {
         priority: PriorityModel
     ): Observable<TaskModel[]> {
 
-        return of(this.searchTodo(category, searchText, status, priority));
+        return of(this.searchTasks(category, searchText, status, priority));
 
     }
 
-    private searchTodo(
+    private searchTasks(
         category: CategoryModel,
         searchText: string,
         status: boolean,
@@ -69,8 +69,25 @@ export class TaskDAOArray implements TaskDAO {
         let allTasks = TestData.tasks;
 
 
+        // поочереди применяем все условия (какие не пустые)
+        if (status != null) {
+            allTasks = allTasks.filter(task => task.completed === status);
+        }
+
         if (category != null) {
-            allTasks = allTasks.filter(todo => todo.category === category);
+            allTasks = allTasks.filter(task => task.category === category);
+        }
+
+        if (priority != null) {
+            allTasks = allTasks.filter(task => task.priority === priority);
+        }
+
+        if (searchText != null) {
+            allTasks = allTasks.filter(
+                task =>
+                    task.title.toUpperCase()
+                        .includes(searchText.toUpperCase()) // учитываем текст поиска (если '' - возвращаются все значения)
+            );
         }
 
 

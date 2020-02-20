@@ -5,6 +5,7 @@ import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/mat
 import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-dialog.component';
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {CategoryModel} from '../../models/CategoryModel';
+import {PriorityModel} from '../../models/PriorityModel';
 
 @Component({
     selector: 'app-tasks',
@@ -22,6 +23,10 @@ export class TasksComponent implements OnInit {
     @ViewChild(MatSort, {static: false}) private sort: MatSort;
 
     private tasks: TaskModel[]; // напрямую не присваиваем значения в переменную, только через @Input
+    // private priorities: PriorityModel[]; // напрямую не присваиваем значения в переменную, только через @Input
+
+    @Input()
+    priorities: PriorityModel[];
 
     @Output()
     deleteTask = new EventEmitter<TaskModel>();
@@ -37,6 +42,20 @@ export class TasksComponent implements OnInit {
     selectCategory = new EventEmitter<CategoryModel>();
 
     private selectedCategory: CategoryModel;
+
+    @Output()
+    filterByTitle = new EventEmitter<string>();
+
+    @Output()
+    filterByStatus = new EventEmitter<boolean>();
+
+    @Output()
+    filterByPriority = new EventEmitter<PriorityModel>();
+
+    // поиск
+    private searchTaskText: string; // текущее значение для поиска задач
+    private selectedStatusFilter: boolean = null;   // по-умолчанию будут показываться задачи по всем статусам (решенные и нерешенные)
+    private selectedPriorityFilter: PriorityModel | null;   // по-умолчанию будут показываться задачи по всем приоритетам
 
     // текущие задачи для отображения на странице
     @Input('tasks')
@@ -179,5 +198,28 @@ export class TasksComponent implements OnInit {
         // вызываем внешний обработчик и передаем туда выбранную категорию
         this.selectCategory.emit(category);
 
+    }
+
+    // фильтрация по названию
+    private onFilterByTitle() {
+        this.filterByTitle.emit(this.searchTaskText);
+    }
+
+    // фильтрация по статусу
+    private onFilterByStatus(value: boolean) {
+
+        // на всякий случай проверяем изменилось ли значение (хотя сам UI компонент должен это делать)
+        if (value !== this.selectedStatusFilter) {
+            this.selectedStatusFilter = value;
+            this.filterByStatus.emit(this.selectedStatusFilter);
+        }
+    }
+
+    // фильтрация по приоритету
+    private onFilterByPriority(value: PriorityModel | null) {
+        if (value !== this.selectedPriorityFilter) {
+            this.selectedPriorityFilter = value;
+            this.filterByPriority.emit(this.selectedPriorityFilter);
+        }
     }
 }
