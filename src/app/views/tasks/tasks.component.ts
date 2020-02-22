@@ -6,6 +6,7 @@ import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-d
 import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
 import {CategoryModel} from '../../models/CategoryModel';
 import {PriorityModel} from '../../models/PriorityModel';
+import {OperatorType} from '../../dialog/OperatorType';
 
 @Component({
     selector: 'app-tasks',
@@ -151,7 +152,7 @@ export class TasksComponent implements OnInit {
 
         // открытие диалогового окна
         const dialogRef = this.dialog.open(EditTaskDialogComponent, {
-            data: [task, 'Edit Task'],
+            data: [task, 'Edit Task', OperatorType.EDIT],
             autoFocus: false
         });
 
@@ -234,7 +235,7 @@ export class TasksComponent implements OnInit {
     private openAddTaskDialog() {
         // то же самое, что и при редактировании, но только передаем пустой объект Task
         const task = new TaskModel(null, '', false, null, this.selectedCategory);
-        const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Add Task']});
+        const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Add Task', OperatorType.ADD]});
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) { // если нажали ОК и есть результат

@@ -29,11 +29,16 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         // this.dataHandler.getAllTasks().subscribe(tasks => this.tasks = tasks);
-        this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
+        // this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
+        this.updateCategories();
         this.dataHandler.getAllPriorities().subscribe(priorities => this.priorities = priorities);
 
         this.onSelectCategory(null); // показать все задачи
 
+    }
+
+    updateCategories() {
+        this.dataHandler.getAllCategories().subscribe(categories => this.categories = categories);
     }
 
     // изменение категории
@@ -78,7 +83,7 @@ export class AppComponent implements OnInit {
 
     // удаление категории
     private onDeleteCategory(category: CategoryModel) {
-        this.dataHandler.deleteCategory(category.id).subscribe(cat => {
+        this.dataHandler.deleteCategory(category.id).subscribe(() => {
             this.selectedCategory = null; // открываем категорию "Все"
             this.onSelectCategory(this.selectedCategory);
         });
@@ -122,8 +127,15 @@ export class AppComponent implements OnInit {
 
     // добавление задачи
     private onAddTask(task: TaskModel) {
-        this.dataHandler.addTask(task).subscribe(result => {
+        this.dataHandler.addTask(task).subscribe(() => {
             this.updateTasks();
+        });
+    }
+
+    // добавление категории
+    private onAddCategory(title: string) {
+        this.dataHandler.addCategory(title).subscribe(() => {
+            this.updateCategories();
         });
     }
 }

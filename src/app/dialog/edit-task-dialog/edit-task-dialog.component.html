@@ -53,7 +53,6 @@
 
     </mat-form-field>
 
-
     <!--    календарь - срок выполнения -->
     <mat-form-field>
         <input
@@ -80,7 +79,6 @@
         </button>
     </mat-form-field>
 
-
 </mat-dialog-content>
 
 
@@ -96,11 +94,10 @@
             Save
         </button>
 
-
         <button (click)="onCancel()" mat-raised-button>Cancel</button>
 
     </div>
-    <div class="col-md-7 col-12 text-right"  *ngIf="task.id !== null">
+    <div class="col-md-7 col-12 text-right"  *ngIf="canDelete()">
 
         <button
             (click)="!status ? activate() : complete()"
@@ -109,12 +106,10 @@
             {{!status ? 'Complete task' : 'Activate task'}}
         </button>
 
-
         <button
             mat-button
             class="red"
             (click)="delete()"
-
         >
             Delete task
         </button>

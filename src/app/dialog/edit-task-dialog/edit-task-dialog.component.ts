@@ -5,6 +5,7 @@ import {CategoryModel} from '../../models/CategoryModel';
 import {DataHandlerService} from '../../services/data-handler.service';
 import {PriorityModel} from '../../models/PriorityModel';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
+import {OperatorType} from '../OperatorType';
 
 @Component({
     selector: 'app-edit-task-dialog',
@@ -30,11 +31,13 @@ export class EditTaskDialogComponent implements OnInit {
 
     private tmpDate: Date;
 
+    private OperatorType: OperatorType;
+
     // сохраняем все значения в отдельные переменные
 
     constructor(
         private dialogRef: MatDialogRef<EditTaskDialogComponent>, // для возможности работы с текущим диалог. окном
-        @Inject(MAT_DIALOG_DATA) private data: [TaskModel, string], // данные, которые передали в диалоговое окно
+        @Inject(MAT_DIALOG_DATA) private data: [TaskModel, string, OperatorType], // данные, которые передали в диалоговое окно
         private dataHandler: DataHandlerService, // ссылка на сервис для работы с данными
         private dialog: MatDialog, // для открытия нового диалогового окна (из текущего) - например для подтверждения удаления
     ) {
@@ -43,6 +46,7 @@ export class EditTaskDialogComponent implements OnInit {
     ngOnInit() {
         this.task = this.data[0]; // задача для редактирования/создания
         this.dialogTitle = this.data[1]; // текст для диалогового окна
+        this.OperatorType = this.data[2]; // текст для диалогового окна
 
         // инициализация начальных значений (записывам в отдельные переменные
         // чтобы можно было отменить изменения, а то будут сразу записываться в задачу)
@@ -101,7 +105,12 @@ export class EditTaskDialogComponent implements OnInit {
     private activate() {
         this.dialogRef.close('activate');
     }
+
     private complete() {
         this.dialogRef.close('complete');
+    }
+
+    private canDelete(): boolean {
+        return this.OperatorType === OperatorType.EDIT;
     }
 }

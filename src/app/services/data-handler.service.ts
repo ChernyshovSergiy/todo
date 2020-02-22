@@ -62,4 +62,8 @@ export class DataHandlerService {
     addTask(task: TaskModel): Observable<TaskModel> {
         return this.tasksDaoArray.add(task);
     }
+
+    addCategory(title: string): Observable<CategoryModel> {
+        return this.categoryDaoArray.add(new CategoryModel(null, title));
+    }
 }

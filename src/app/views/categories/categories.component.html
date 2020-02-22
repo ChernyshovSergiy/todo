@@ -10,7 +10,12 @@
         </span>
         <!--Кнопка добавления категории-->
         <span class="add-icon-area">
-            <button mat-mini-fab color="primary" aria-label="icon-button with a add icon">
+            <button
+                mat-mini-fab
+                color="primary"
+                aria-label="icon-button with add icon"
+                (click)="openAddCategoryDialog()"
+            >
                 <mat-icon style="margin-bottom: 5px">add</mat-icon>
             </button>
         </span>

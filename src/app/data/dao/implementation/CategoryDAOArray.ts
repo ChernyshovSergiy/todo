@@ -1,13 +1,23 @@
 import {CategoryDAO} from '../interface/CategoryDAO';
 import {CategoryModel} from 'src/app/models/CategoryModel';
 import {Observable, of} from 'rxjs';
-import {TaskModel} from '../../../models/TaskModel';
 import {TestData} from '../../TestData';
 
 export class CategoryDAOArray implements CategoryDAO {
 
-    add(T): Observable<CategoryModel> {
-        return undefined;
+    // находит последний id (чтобы потом вставить новую запись с id, увеличенным на 1) - в реальной БД это происходит автоматически
+    protected static getLastIdTCategory(): number {
+        return Math.max.apply(Math, TestData.categories.map(category => category.id)) + 1;
+    }
+
+    add(category: CategoryModel): Observable<CategoryModel> {
+        // если id пустой - генерируем его
+        if (category.id === null || category.id === 0) {
+            category.id = CategoryDAOArray.getLastIdTCategory();
+        }
+        TestData.categories.push(category);
+
+        return of(category);
     }
 
     delete(id: number): Observable<CategoryModel> {

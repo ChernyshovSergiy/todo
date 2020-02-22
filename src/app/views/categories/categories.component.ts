@@ -3,6 +3,7 @@ import {DataHandlerService} from '../../services/data-handler.service';
 import {CategoryModel} from '../../models/CategoryModel';
 import {MatDialog} from '@angular/material';
 import {EditCategoryDialogComponent} from '../../dialog/edit-category-dialog/edit-category-dialog.component';
+import {OperatorType} from '../../dialog/OperatorType';
 
 @Component({
     selector: 'app-categories',
@@ -28,6 +29,10 @@ export class CategoriesComponent implements OnInit {
     // изменили категорию
     @Output()
     updateCategory = new EventEmitter<CategoryModel>();
+
+    // добавление категории
+    @Output()
+    addCategory = new EventEmitter<string>();
 
     // для отображения иконки редактирования при наведении на категорию
     private indexMouseMove: number;
@@ -64,16 +69,14 @@ export class CategoriesComponent implements OnInit {
     // диалоговое окно для редактирования категории
     private openEditDialog(category: CategoryModel) {
         const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
-            data: [category.title, 'Edit Category'],
+            data: [category.title, 'Edit Category', OperatorType.EDIT],
             width: '400px'
         });
 
         dialogRef.afterClosed().subscribe(result => {
 
             if (result === 'delete') { // нажали удалить
-
                 this.deleteCategory.emit(category); // вызываем внешний обработчик
-
                 return;
             }
 
@@ -82,6 +85,16 @@ export class CategoriesComponent implements OnInit {
 
                 this.updateCategory.emit(category); // вызываем внешний обработчик
                 return;
+            }
+        });
+    }
+
+    // открытие диологового окна для добовления категории
+    openAddCategoryDialog() {
+        const dialogRef = this.dialog.open(EditCategoryDialogComponent, {data: ['', 'Add Category', OperatorType.ADD]});
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) { // если нажали ок и есть результат
+                this.addCategory.emit(result as string); // вызываем внешний обработчик;
             }
         });
     }
