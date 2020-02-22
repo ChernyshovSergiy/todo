@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
     // фильтрация
     private statusFilter: boolean;
     private priorityFilter: PriorityModel;
+    private searchCategoryText: string;
 
     constructor(private dataHandler: DataHandlerService) { // фасад для работы с данными
     }
@@ -92,7 +93,7 @@ export class AppComponent implements OnInit {
     // обновлении категории
     private onUpdateCategory(category: CategoryModel) {
         this.dataHandler.updateCategory(category).subscribe(() => {
-            this.onSelectCategory(this.selectedCategory);
+            this.onSearchCategory(this.searchCategoryText);
         });
     }
 
@@ -136,6 +137,14 @@ export class AppComponent implements OnInit {
     private onAddCategory(title: string) {
         this.dataHandler.addCategory(title).subscribe(() => {
             this.updateCategories();
+        });
+    }
+
+    onSearchCategory(title: string) {
+        this.searchCategoryText = title;
+
+        this.dataHandler.searchCategories(title).subscribe(categories => {
+            this.categories = categories;
         });
     }
 }
