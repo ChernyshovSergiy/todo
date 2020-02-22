@@ -82,6 +82,8 @@ export class TasksComponent implements OnInit {
         this.dataSource = new MatTableDataSource();
 
         this.fillTable();  // заполняем таблицы данными (задачи) и всеми метаданными
+
+        this.onSelectCategory(null); // для корректной работы сортировки и пагинации
     }
 
     toggleTaskCompleted(task: TaskModel) {

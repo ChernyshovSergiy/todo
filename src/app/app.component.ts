@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
     private onDeleteCategory(category: CategoryModel) {
         this.dataHandler.deleteCategory(category.id).subscribe(() => {
             this.selectedCategory = null; // открываем категорию "Все"
-            this.onSelectCategory(this.selectedCategory);
+            this.onSelectCategory(null);
         });
     }
 
