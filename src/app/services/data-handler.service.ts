@@ -58,4 +58,8 @@ export class DataHandlerService {
     deleteCategory(id: number): Observable<CategoryModel> {
         return this.categoryDaoArray.delete(id);
     }
+
+    addTask(task: TaskModel): Observable<TaskModel> {
+        return this.tasksDaoArray.add(task);
+    }
 }

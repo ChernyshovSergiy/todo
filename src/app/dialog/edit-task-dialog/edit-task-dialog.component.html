@@ -100,7 +100,7 @@
         <button (click)="onCancel()" mat-raised-button>Cancel</button>
 
     </div>
-    <div class="col-md-7 col-12 text-right">
+    <div class="col-md-7 col-12 text-right"  *ngIf="dialogTitle !== 'Add Task'">
 
         <button
             (click)="!status ? activate() : complete()"

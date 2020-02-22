@@ -25,9 +25,6 @@ export class TasksComponent implements OnInit {
     private tasks: TaskModel[]; // напрямую не присваиваем значения в переменную, только через @Input
     // private priorities: PriorityModel[]; // напрямую не присваиваем значения в переменную, только через @Input
 
-    @Input()
-    priorities: PriorityModel[];
-
     @Output()
     deleteTask = new EventEmitter<TaskModel>();
 
@@ -39,9 +36,9 @@ export class TasksComponent implements OnInit {
 
     // выбрали категорию из списка
     @Output()
-    selectCategory = new EventEmitter<CategoryModel>();
+    selectCategory = new EventEmitter<CategoryModel>(); // нажали на категорию из списка задач
 
-    private selectedCategory: CategoryModel;
+    // private selectedCategory: CategoryModel;
 
     @Output()
     filterByTitle = new EventEmitter<string>();
@@ -51,6 +48,9 @@ export class TasksComponent implements OnInit {
 
     @Output()
     filterByPriority = new EventEmitter<PriorityModel>();
+
+    @Output()
+    addTask = new EventEmitter<TaskModel>();
 
     // поиск
     private searchTaskText: string; // текущее значение для поиска задач
@@ -63,6 +63,12 @@ export class TasksComponent implements OnInit {
         this.tasks = tasks;
         this.fillTable();
     }
+
+    @Input()
+    priorities: PriorityModel[];
+
+    @Input()
+    selectedCategory: CategoryModel;
 
     constructor(
         private dataHandler: DataHandlerService,
@@ -221,5 +227,20 @@ export class TasksComponent implements OnInit {
             this.selectedPriorityFilter = value;
             this.filterByPriority.emit(this.selectedPriorityFilter);
         }
+    }
+
+
+    // диалоговое окно для добавления задачи
+    private openAddTaskDialog() {
+        // то же самое, что и при редактировании, но только передаем пустой объект Task
+        const task = new TaskModel(null, '', false, null, this.selectedCategory);
+        const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Add Task']});
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) { // если нажали ОК и есть результат
+                this.addTask.emit(task);
+            }
+        });
+
     }
 }

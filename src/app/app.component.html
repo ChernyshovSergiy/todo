@@ -94,7 +94,9 @@
                         (updateTask)="onUpdateTask($event)"
                         (deleteTask)="onDeleteTask($event)"
                         (selectCategory)="onSelectCategory($event)"
+                        (addTask)="onAddTask($event)"
 
+                        [selectedCategory]="selectedCategory"
                         (filterByStatus)="onFilterTasksByStatus($event)"
                         (filterByPriority)="onFilterTasksByPriority($event)"
                         (filterByTitle)="onSearchTasks($event)"

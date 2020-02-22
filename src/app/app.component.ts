@@ -41,14 +41,7 @@ export class AppComponent implements OnInit {
 
         this.selectedCategory = category;
 
-        this.dataHandler.searchTasks(
-            this.selectedCategory,
-            null,
-            null,
-            null
-        ).subscribe(tasks => {
-            this.tasks = tasks;
-        });
+        this.updateTasks();
 
     }
 
@@ -125,5 +118,12 @@ export class AppComponent implements OnInit {
     private onFilterTasksByPriority(priority: PriorityModel) {
         this.priorityFilter = priority;
         this.updateTasks();
+    }
+
+    // добавление задачи
+    private onAddTask(task: TaskModel) {
+        this.dataHandler.addTask(task).subscribe(result => {
+            this.updateTasks();
+        });
     }
 }

@@ -7,9 +7,20 @@ import {TestData} from '../../TestData';
 
 
 export class TaskDAOArray implements TaskDAO {
+    // находит последний id (чтобы потом вставить новую запись с id, увеличенным на 1) - в реальной БД это происходит автоматически
+    protected static getLastIdTask(): number {
+        return Math.max.apply(Math, TestData.tasks.map(task => task.id)) + 1;
+    }
 
-    add(T): Observable<TaskModel> {
-        return undefined;
+    add(task: TaskModel): Observable<TaskModel> {
+
+        // если id пустой - генерируем его
+        if (task.id === null || task.id === 0) {
+            task.id = TaskDAOArray.getLastIdTask();
+        }
+        TestData.tasks.push(task);
+
+        return of(task);
     }
 
     delete(id: number): Observable<TaskModel> {
