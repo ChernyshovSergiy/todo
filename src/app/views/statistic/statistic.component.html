@@ -1,1 +1,49 @@
-<p>statistic works!</p>
+<div>
+    <div class="row">
+        <app-statistic-card
+            class='col-lg-3 col-md-6 col-sm-6'
+            [completed]="true"
+            cardHeaderColor="card-header-warning"
+            iconName="content_copy"
+            [count1]="completedTaskInCategory"
+            [countTotal]="totalTasksInCategory"
+            cardIconColor="text-success"
+            smallIconName="content_copy"
+            title="Completed tasks"
+        ></app-statistic-card>
+
+        <app-statistic-card
+            class='col-lg-3 col-md-6 col-sm-6'
+            cardHeaderColor="card-header-danger"
+            iconName="thumb_down_alt"
+            [count1]="uncompletedTaskInCategory"
+            [countTotal]="totalTasksInCategory"
+            cardIconColor="text-warning"
+            smallIconName="local_offer"
+            title="Uncompleted tasks"
+        ></app-statistic-card>
+
+        <app-statistic-card
+            class='col-lg-3 col-md-6 col-sm-6 completed-card'
+            [completed]="true"
+            cardHeaderColor="card-header-info"
+            iconName="thumb_up_alt"
+            [count1]="completedTaskInCategory ? (completedTaskInCategory/totalTasksInCategory | percent): '0%'"
+            [countTotal]="totalTasksInCategory"
+            cardIconColor="text-info"
+            smallIconName="date_range"
+            title="Percentage of completed tasks"
+        ></app-statistic-card>
+
+        <app-statistic-card
+            class='col-lg-3 col-md-6 col-sm-6'
+            cardHeaderColor="card-header-danger"
+            iconName="poll"
+            [count1]="uncompletedTaskInCategory ? (uncompletedTaskInCategory/totalTasksInCategory | percent): '0%'"
+            [countTotal]="totalTasksInCategory"
+            cardIconColor="text-danger"
+            smallIconName="access_time"
+            title="Percentage of uncompleted tasks"
+        ></app-statistic-card>
+    </div>
+</div>

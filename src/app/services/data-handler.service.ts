@@ -70,4 +70,20 @@ export class DataHandlerService {
     searchCategories(title: string) {
         return this.categoryDaoArray.search(title);
     }
+    // статистика
+    getTotalTasksInCategory(category: CategoryModel): Observable<number> {
+        return this.tasksDaoArray.getTotalTasksInCategory(category);
+    }
+
+    getCompletedTaskInCategory(category: CategoryModel): Observable<number> {
+        return this.tasksDaoArray.getCompletedTaskInCategory(category);
+    }
+
+    getUncompletedTaskInCategory(category: CategoryModel): Observable<number> {
+        return this.tasksDaoArray.getUncompletedTaskInCategory(category);
+    }
+
+    getUncompletedTotalTaskCount(): Observable<number> {
+        return this.tasksDaoArray.getUncompletedTotalTaskCount();
+    }
 }

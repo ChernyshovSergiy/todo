@@ -27,6 +27,7 @@ import { FooterComponent } from './views/footer/footer.component';
 import { AboutDialogComponent } from './dialog/about-dialog/about-dialog.component';
 import { HeaderComponent } from './views/header/header.component';
 import { StatisticComponent } from './views/statistic/statistic.component';
+import { StatisticCardComponent } from './views/statistic/statistic-card/statistic-card.component';
 
 registerLocaleData(localeRu);
 
@@ -42,7 +43,8 @@ registerLocaleData(localeRu);
         FooterComponent,
         AboutDialogComponent,
         HeaderComponent,
-        StatisticComponent
+        StatisticComponent,
+        StatisticCardComponent
     ],
     imports: [
         BrowserModule,

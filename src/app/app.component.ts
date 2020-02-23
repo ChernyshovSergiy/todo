@@ -3,6 +3,7 @@ import {TaskModel} from './models/TaskModel';
 import {DataHandlerService} from './services/data-handler.service';
 import {CategoryModel} from './models/CategoryModel';
 import {PriorityModel} from './models/PriorityModel';
+import {zip} from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -24,6 +25,12 @@ export class AppComponent implements OnInit {
     private statusFilter: boolean;
     private priorityFilter: PriorityModel;
     private searchCategoryText: string;
+
+    // статистика
+    private onTotalTasksInCategory: number;
+    private onCompletedTaskInCategory: number;
+    private onUncompletedTaskInCategory: number;
+    private uncompletedTotalTaskCount: number;
 
     constructor(private dataHandler: DataHandlerService) { // фасад для работы с данными
     }
@@ -47,7 +54,7 @@ export class AppComponent implements OnInit {
 
         this.selectedCategory = category;
 
-        this.updateTasks();
+        this.updateTasksAndStatistic();
 
     }
 
@@ -55,14 +62,7 @@ export class AppComponent implements OnInit {
     private onUpdateTask(task: TaskModel) {
 
         this.dataHandler.updateTask(task).subscribe(() => {
-            this.dataHandler.searchTasks(
-                this.selectedCategory,
-                null,
-                null,
-                null
-            ).subscribe(tasks => {
-                this.tasks = tasks;
-            });
+            this.updateTasksAndStatistic();
         });
 
     }
@@ -71,14 +71,7 @@ export class AppComponent implements OnInit {
     private onDeleteTask(task: TaskModel) {
 
         this.dataHandler.deleteTask(task.id).subscribe(() => {
-            this.dataHandler.searchTasks(
-                this.selectedCategory,
-                null,
-                null,
-                null
-            ).subscribe(tasks => {
-                this.tasks = tasks;
-            });
+            this.updateTasksAndStatistic();
         });
     }
 
@@ -129,7 +122,7 @@ export class AppComponent implements OnInit {
     // добавление задачи
     private onAddTask(task: TaskModel) {
         this.dataHandler.addTask(task).subscribe(() => {
-            this.updateTasks();
+            this.updateTasksAndStatistic();
         });
     }
 
@@ -147,4 +140,25 @@ export class AppComponent implements OnInit {
             this.categories = categories;
         });
     }
+        // обновление задач и переменных статистики с учётом фильтров
+    private updateTasksAndStatistic() {
+        this.updateTasks();
+        this.updateStatistic();
+    }
+
+    // обновление статистики
+    private updateStatistic() {
+        zip(
+            this.dataHandler.getTotalTasksInCategory(this.selectedCategory),
+            this.dataHandler.getCompletedTaskInCategory(this.selectedCategory),
+            this.dataHandler.getUncompletedTaskInCategory(this.selectedCategory),
+            this.dataHandler.getUncompletedTotalTaskCount()
+        ).subscribe( array => {
+            this.onTotalTasksInCategory = array[0];
+            this.onCompletedTaskInCategory = array[1];
+            this.onUncompletedTaskInCategory = array[2];
+            this.uncompletedTotalTaskCount = array[3]; // нужна для обработки категории Все
+        });
+    }
 }
+
