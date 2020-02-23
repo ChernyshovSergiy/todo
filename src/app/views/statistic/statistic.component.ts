@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-statistic',
-  templateUrl: './statistic.component.html',
-  styleUrls: ['./statistic.component.css']
+    selector: 'app-statistic',
+    templateUrl: './statistic.component.html',
+    styleUrls: ['./statistic.component.css']
 })
 export class StatisticComponent implements OnInit {
 
@@ -18,9 +18,13 @@ export class StatisticComponent implements OnInit {
     @Input()
     uncompletedTaskInCategory: number; // общее кол-во незавершенных задач в категории
 
-  constructor() { }
+    @Input()
+    showStatistic: boolean; // показывать скрывать блок статистики
 
-  ngOnInit() {
-  }
+    constructor() {
+    }
+
+    ngOnInit() {
+    }
 
 }

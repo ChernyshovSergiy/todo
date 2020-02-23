@@ -32,6 +32,8 @@ export class AppComponent implements OnInit {
     private onUncompletedTaskInCategory: number;
     private uncompletedTotalTaskCount: number;
 
+    private showStatistic = true;
+
     constructor(private dataHandler: DataHandlerService) { // фасад для работы с данными
     }
 
@@ -140,7 +142,8 @@ export class AppComponent implements OnInit {
             this.categories = categories;
         });
     }
-        // обновление задач и переменных статистики с учётом фильтров
+
+    // обновление задач и переменных статистики с учётом фильтров
     private updateTasksAndStatistic() {
         this.updateTasks();
         this.updateStatistic();
@@ -153,12 +156,16 @@ export class AppComponent implements OnInit {
             this.dataHandler.getCompletedTaskInCategory(this.selectedCategory),
             this.dataHandler.getUncompletedTaskInCategory(this.selectedCategory),
             this.dataHandler.getUncompletedTotalTaskCount()
-        ).subscribe( array => {
+        ).subscribe(array => {
             this.onTotalTasksInCategory = array[0];
             this.onCompletedTaskInCategory = array[1];
             this.onUncompletedTaskInCategory = array[2];
             this.uncompletedTotalTaskCount = array[3]; // нужна для обработки категории Все
         });
+    }
+
+    private onShowStatistic(show: boolean) {
+        this.showStatistic = show;
     }
 }
 

@@ -1,1 +1,18 @@
-<p>Dashboard</p>
+<div class="container-fluid">
+    <div class="navbar-wrapper">
+        <p class="navbar-brand">{{categoryName}}</p>
+        <p class="navbar-brand pointer under-line" (click)="changeShowStatus()">{{showStatistic ? 'Hide statistic': 'Show statistic'}}</p>
+    </div>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <button mat-icon-button class="header-icon">
+                <mat-icon>settings</mat-icon>
+            </button>
+        </li>
+        <li class="nav-item">
+            <button mat-icon-button    class="header-icon">
+                <mat-icon   >help</mat-icon>
+            </button>
+        </li>
+    </ul>
+</div>
